@@ -18,10 +18,10 @@ function App() {
 
       <Navbar bg="dark" data-bs-theme="dark">
         <Container>
-          <Navbar.Brand href="#home">10유경의시발가게</Navbar.Brand>
+          <Navbar.Brand href="/">10유경의시발가게</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link onClick={() => { navigate('/')}}>Home</Nav.Link>
-            <Nav.Link onClick={() => { navigate('./detail')}}>Cart</Nav.Link>
+            <Nav.Link onClick={() => { navigate('./detail')}}>Detail</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
@@ -35,14 +35,14 @@ function App() {
         {
           shoes.map((a, i) => {
             return (
-              <Product shoes = {shoes[i]} i= {i} ></Product>
+              <Product shoes = {shoes[i]} i= {i} navigate = {navigate} ></Product>
             )
           })
         }
         </div>
       </div> 
         </div>}/>
-        <Route path ="/detail" element ={<Detail/>} />
+        <Route path ="/detail/:id/" element ={<Detail shoes = {shoes}/>} />
         <Route path ="*" element ={<div>없는페이지입니다</div>} />
         <Route path ="/about" element ={<About/>}>
           <Route path ="member" element ={<div>멤버</div>} />
@@ -80,8 +80,8 @@ function About() {
 function Product(props) {
   return (
     <div className="col-md-4">
-      <img src={'https://codingapple1.github.io/shop/shoes'+ (props.i+1) +'.jpg'} width="80%"></img>
-      <h4>{props.shoes.title}</h4>
+      <img src={'https://codingapple1.github.io/shop/shoes'+ (props.i+1) +'.jpg'} width="80%" ></img>
+      <h4 onClick={() => { props.navigate('/detail/' + (props.i))}}>{props.shoes.title}</h4>
       <p>{props.shoes.price}</p>
     </div>
 
