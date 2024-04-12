@@ -5,10 +5,10 @@ import { useState } from 'react';
 import data from './data.js';
 import {Routes, Route, Link, useNavigate, Outlet} from 'react-router-dom'
 import Detail from './routes/detail.js';
-
+import axios from 'axios'
 
 function App() {
-  let [shoes] = useState(data)
+  let [shoes,setShoes] = useState(data)
   let navigate = useNavigate();
   return (
     <div className="App">
@@ -40,8 +40,19 @@ function App() {
           })
         }
         </div>
+        
       </div> 
+      <button onClick={() => {
+        axios.get('https://codingapple1.github.io/shop/data2.json')
+        .then((result) => {
+          let copy = [...shoes].concat(...result.data)
+          setShoes(copy)})
+        .catch(() => {console.log('실패')})
+      }}>버튼</button>
+
         </div>}/>
+        
+        
         <Route path ="/detail/:id/" element ={<Detail shoes = {shoes}/>} />
         <Route path ="*" element ={<div>없는페이지입니다</div>} />
         <Route path ="/about" element ={<About/>}>
@@ -55,8 +66,6 @@ function App() {
       </Routes>
 
 
-      
-      
     </div>
     
   );
@@ -80,8 +89,8 @@ function About() {
 function Product(props) {
   return (
     <div className="col-md-4">
-      <img src={'https://codingapple1.github.io/shop/shoes'+ (props.i+1) +'.jpg'} width="80%" ></img>
-      <h4 onClick={() => { props.navigate('/detail/' + (props.i))}}>{props.shoes.title}</h4>
+      <img onClick={() => { props.navigate('/detail/' + (props.i))}} src={'https://codingapple1.github.io/shop/shoes'+ (props.i+1) +'.jpg' } width="80%" ></img>
+      <h4>{props.shoes.title}</h4>
       <p>{props.shoes.price}</p>
     </div>
 
